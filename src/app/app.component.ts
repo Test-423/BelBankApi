@@ -38,10 +38,8 @@ export class AppComponent implements OnInit, OnDestroy {
         this.range = this.control.valueChanges.subscribe((date) => {
             let from = Object.assign({}, date.from),
                 to = Object.assign({}, date.to)
-            console.log(this.control.value.to)
             from.month++;
             to.month++;
-            console.log(this.control.value.to)
             this.service.getCurrencies(
                 Object.values(from).join('-'),
                 Object.values(to).join('-')
@@ -70,7 +68,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
     getTodayDate(set: number = 0): [number, number, number] {
         let date = new Date();
-        console.log(date)
         date.setDate(date.getDate() + set);
         return [date.getFullYear(), date.getMonth(), date.getDate()]
     }
