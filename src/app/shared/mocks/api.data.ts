@@ -12,7 +12,7 @@ export const API = {
             code: 145
         },
         {
-            name: 'RUB',
+            name: 'RUR',
             code: 298
         }
     ]

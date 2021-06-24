@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { TuiRootModule } from '@taiga-ui/core';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './shared/components/header/header.component';
@@ -27,7 +26,6 @@ import { NumberPipe } from './shared/pipes/number.pipe';
     ],
     imports: [
         BrowserModule,
-        AppRoutingModule,
         HttpClientModule,
         FormsModule,
         TuiRootModule,

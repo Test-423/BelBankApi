@@ -35,13 +35,19 @@ export class AppComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        this.range = this.control.valueChanges.subscribe(({ from, to }) => {
+        this.range = this.control.valueChanges.subscribe((date) => {
+            let from = Object.assign({}, date.from),
+                to = Object.assign({}, date.to)
+            console.log(this.control.value.to)
+            from.month++;
+            to.month++;
+            console.log(this.control.value.to)
             this.service.getCurrencies(
                 Object.values(from).join('-'),
                 Object.values(to).join('-')
             )
         })
-        this.control.setValue(new TuiDayRange(new TuiDay(...this.getTodayDate()), new TuiDay(...this.getTodayDate(6))));
+        this.control.setValue(new TuiDayRange(new TuiDay(...this.getTodayDate(-6)), new TuiDay(...this.getTodayDate())));
         this.currency = this.service.currency$.subscribe((val) => {
             this.total = val[0].values.length;
             this.data = val;
@@ -64,6 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     getTodayDate(set: number = 0): [number, number, number] {
         let date = new Date();
+        console.log(date)
         date.setDate(date.getDate() + set);
         return [date.getFullYear(), date.getMonth(), date.getDate()]
     }
