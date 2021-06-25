@@ -1,6 +1,10 @@
 <tui-root class="root">
     <div class="page">
         <div class="page-container">
+            <div class="text-container">
+                <h1 class="text-header">NatBank API</h1>
+                <span class="text">Custom exchange rates API of the National Bank of the Republic of Belarus</span>
+            </div>
             <input type="text" placeholder="Currency..." [(ngModel)]="searchString" class="table-search">
             <div *ngIf="data">
                 <div class="table-wrapper">

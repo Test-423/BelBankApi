@@ -17,19 +17,38 @@
             background-color: white;
             height: 500px;
             width: 875px;
+            width: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid black;
+            border-radius: calc(var(--tui-radius-l) * 5);
+            padding: 50px var(--tui-height-s) 50px;
+
             @media screen and (max-width: 900px) {
                 width: 100%;
             }
             @media screen and (max-width: 450px) {
-                padding: 15px;
+                padding: 20px 15px 18px;
+                border: none;
             }
-            width: auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            border: 1px solid black;
-            border-radius: calc(var(--tui-radius-l) * 5);
-            padding: var(--tui-height-s);
+        }
+    }
+    .text {
+        &-container {
+            margin-left: 30px;
+            @media screen and (max-width: 730px) {
+                margin-left: 0px;
+                width: 90%;
+                align-self: center;
+            }
+        }
+        &-header {
+            margin-bottom: 10px;
+            margin-left: 15px;
+            @media screen and (max-width: 450px) {
+                margin-left: 5px;
+            }
         }
     }
     .table {
@@ -37,12 +56,18 @@
         border-collapse: collapse;
         text-align: center;
         &-search {
-            height: 28px;
+            height: 34px;
             border: 2px solid var(--tui-success-fill);
             text-align: center;
             margin-bottom: 10px;
             margin-bottom: 18px;
             align-self: flex-end;
+            @media screen and (max-width: 730px) {
+                margin-top: 20px;
+            }
+            @media screen and (max-width: 450px) {
+                margin: 0;
+            }
             &:focus {
                 outline: none;
             }
@@ -71,6 +96,7 @@
             }
         }
         &-wrapper {
+            margin-bottom: 20px;
             @media screen and (max-width: 730px) {
                 max-width: 100%;
                 overflow-y: hidden;
