@@ -111,6 +111,7 @@ import {
 import {
     TuiElasticStickyModule,
     TuiMobileCalendarModule,
+    TuiMobileCalendarDialogModule,
     TuiMobileDialogModule,
     TuiPullToRefreshModule,
     TuiRippleModule,
@@ -237,6 +238,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         TuiRippleModule,
         TuiSidebarModule,
         TuiTouchableModule,
+        TuiMobileCalendarDialogModule
     ]
 })
 
