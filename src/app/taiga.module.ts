@@ -108,6 +108,15 @@ import {
     TuiPieChartModule,
     TuiRingChartModule,
 } from '@taiga-ui/addon-charts';
+import {
+    TuiElasticStickyModule,
+    TuiMobileCalendarModule,
+    TuiMobileDialogModule,
+    TuiPullToRefreshModule,
+    TuiRippleModule,
+    TuiSidebarModule,
+    TuiTouchableModule,
+} from '@taiga-ui/addon-mobile';
 
 import {
     TuiReorderModule,
@@ -221,6 +230,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         TuiResizableColumnModule,
         TuiTablePaginationModule,
         TuiTableModule,
+        TuiElasticStickyModule,
+        TuiMobileCalendarModule,
+        TuiMobileDialogModule,
+        TuiPullToRefreshModule,
+        TuiRippleModule,
+        TuiSidebarModule,
+        TuiTouchableModule,
     ]
 })
 
