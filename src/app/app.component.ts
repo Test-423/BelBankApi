@@ -27,8 +27,8 @@ export class AppComponent implements OnInit, OnDestroy {
     page: number = 0;
     size: number = 7;
     total: number = 0;
-
-
+    min: any = new TuiDay(2000, 1, 1);
+    max: any = new TuiDay(2022, 1, 1);
     constructor(
         private service: MainComponentService,
         private zone: ChangeDetectorRef
@@ -36,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.range = this.control.valueChanges.subscribe((date) => {
+            if (date === null) return;
             let from = Object.assign({}, date.from),
                 to = Object.assign({}, date.to)
             from.month++;
