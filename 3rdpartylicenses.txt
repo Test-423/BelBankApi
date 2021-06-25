@@ -143,6 +143,9 @@ SOFTWARE.
 @taiga-ui/addon-charts
 Apache-2.0
 
+@taiga-ui/addon-mobile
+Apache-2.0
+
 @taiga-ui/addon-table
 Apache-2.0
                                  Apache License
