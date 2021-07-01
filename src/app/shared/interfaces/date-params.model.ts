@@ -1,4 +1,4 @@
-export interface Deval {
+export interface DateParams {
     date: string;
     rate: number;
 }

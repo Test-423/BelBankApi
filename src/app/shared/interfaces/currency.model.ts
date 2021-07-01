@@ -1,6 +1,6 @@
-import { Deval } from "./dval.model";
+import { DateParams } from "./date-params.model";
 
 export interface Currency {
     name: string;
-    values: Deval[]
+    values: DateParams[]
 }

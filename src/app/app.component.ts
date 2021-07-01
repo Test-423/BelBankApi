@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { FormControl } from '@angular/forms';
 import { MainComponentService } from './api/main-component.api.service';
 import { Currency } from './shared/interfaces/currency.model';
-import { Deval } from './shared/interfaces/dval.model';
+import { DateParams } from './shared/interfaces/date-params.model';
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import { Subscription } from 'rxjs';
 import { DEF_DATA } from './shared/mocks/def-data.data';
@@ -16,57 +16,60 @@ import { DEF_DATA } from './shared/mocks/def-data.data';
 
 export class AppComponent implements OnInit, OnDestroy {
 
-    public control: FormControl = new FormControl();
+    public dateControl: FormControl = new FormControl();
+    public curList: Currency[] = DEF_DATA;
+
+    public minDate: any = TuiDay.currentLocal().append({ year: -1 });
+    public maxDate: any = TuiDay.currentLocal().append({ day: 1 });
+    public currentPage: number = 0;
+    public pageSize: number = 7;
+    public totalPages: number = 0;
     public searchString: string = '';
-    public data: Currency[] = DEF_DATA;
 
 
-    private range!: Subscription;
-    private currency!: Subscription;
+    private dateRangeSubs!: Subscription;
+    private currListSubs!: Subscription;
 
 
-    public page: number = 0;
-    public size: number = 7;
-    public total: number = 0;
 
-
-    min: any = TuiDay.currentLocal().append({ year: -1 });
-    max: any = TuiDay.currentLocal().append({ day: 1 });
     constructor(
-        private service: MainComponentService,
-        private zone: ChangeDetectorRef
+        private apiServics: MainComponentService,
+        private zoneDetector: ChangeDetectorRef
     ) { }
 
     ngOnInit() {
-        this.range = this.control.valueChanges.subscribe((date) => {
+        this.dateRangeSubs = this.dateControl.valueChanges.subscribe((date: TuiDayRange): void => {
             if (date === null) return;
-            this.service.getCurrencies(date.from.toJSON(), date.to.toJSON())
-        })
+            this.apiServics.getCurrencies(date.from.toJSON(), date.to.toJSON());
+        });
 
-        this.control.setValue(new TuiDayRange(TuiDay.currentLocal().append({ day: -6 }), TuiDay.currentLocal()));
+        this.currListSubs = this.apiServics.currency$.subscribe((val: Currency[]): void => {
+            this.totalPages = val[0].values.length;
+            this.curList = val;
+            this.currentPage = 0;
+            this.zoneDetector.detectChanges();
+        });
 
-        this.currency = this.service.currency$.subscribe((val) => {
-            this.total = val[0].values.length;
-            this.data = val;
-            this.zone.detectChanges();
-        })
+        this.dateControl.setValue(new TuiDayRange(TuiDay.currentLocal().append({ day: -6 }), TuiDay.currentLocal()));
     }
 
-    isExtreme(value: number, mass: Deval[], mode: string): boolean {
+    ngOnDestroy() {
+        this.dateRangeSubs.unsubscribe();
+        this.currListSubs.unsubscribe();
+    }
+
+    public isExtreme(value: number, mass: DateParams[], mode: string): boolean {
         if (mode === 'min') {
-            return value === Math.min(...mass.map(elem => elem.rate));
+            return value === Math.min(...mass.map((elem: DateParams) => elem.rate));
         } else if (mode === 'max') {
-            return value === Math.max(...mass.map(elem => elem.rate));
+            return value === Math.max(...mass.map((elem: DateParams) => elem.rate));
         }
         return false;
     }
 
-    public cut(data: any[]): any[] {
-        return data.slice(this.page * this.size, (this.page + 1) * this.size)
+    public listCut(data: any[]): any[] {
+        return data.slice(this.currentPage * this.pageSize, (this.currentPage + 1) * this.pageSize)
     }
 
-    ngOnDestroy() {
-        this.range.unsubscribe();
-        this.currency.unsubscribe();
-    }
+
 }

@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { combineLatest, Subject } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { REQUEST } from '../shared/mocks/request.data';
+
+import { Request, Codes } from '../shared/interfaces/request.model';
 import { Currency } from '../shared/interfaces/currency.model';
-import { API } from '../shared/mocks/api.data';
-import { Api } from '../shared/interfaces/api.model';
+import { CurrencyRequest } from '../shared/interfaces/currency-request.model';
 
 @Injectable({
     providedIn: 'root'
@@ -12,31 +14,34 @@ import { Api } from '../shared/interfaces/api.model';
 
 export class MainComponentService {
 
-    currency$: Subject<any[]> = new Subject();
-
-    options: Api = API;
+    public currency$: Subject<any[]> = new Subject();
+    private options: Request = REQUEST;
 
     constructor(
         private readonly http: HttpClient
     ) { }
 
-    getCurrencies(from: string, to: string) {
-        const requests: any[] = [];
-        this.options.params.forEach(({ code, name }) => {
-            requests.push(this.http.get(this.options.url + `${code}?` + `startDate=${from}&endDate=${to}`)
-                .pipe(map((res): Currency => {
-                    return {
-                        name: name,
-                        values: Object.values(res).map((elem) => {
+    getCurrencies(from: string, to: string): void {
+
+        const requests: Array<Observable<Currency>> = [];
+
+        this.options.currencies.forEach(({ curCode, curName }: Codes) => {
+            requests.push(
+                this.http.get(this.options.urlBody + `${curCode}?` + `startDate=${from}&endDate=${to}`)
+                    .pipe(
+                        map((res: Object): Currency => {
                             return {
-                                date: elem.Date,
-                                rate: elem.Cur_OfficialRate
+                                name: curName,
+                                values: Object.values(res).map((elem: CurrencyRequest) => {
+                                    return {
+                                        date: elem.Date,
+                                        rate: elem.Cur_OfficialRate
+                                    }
+                                })
                             }
-                        })
-                    }
-                })))
+                        })))
         })
-        combineLatest(requests).subscribe((res) => {
+        combineLatest(requests).subscribe((res: Currency[]): void => {
             this.currency$.next(res)
         })
     }
