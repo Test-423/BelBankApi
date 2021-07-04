@@ -4,16 +4,16 @@ export const REQUEST = {
     endDate: '2021-6-23',
     currencies: [
         {
+            curName: 'RUR',
+            curCode: 298
+        },
+        {
             curName: 'EUR',
             curCode: 292
         },
         {
             curName: 'USD',
             curCode: 145
-        },
-        {
-            curName: 'RUR',
-            curCode: 298
         }
     ]
 }

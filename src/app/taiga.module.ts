@@ -102,6 +102,7 @@ import * as icons from '@taiga-ui/icons';
 
 import {
     TuiAxesModule,
+    TuiBarModule,
     TuiBarChartModule,
     TuiLineChartModule,
     TuiLineDaysChartModule,
@@ -125,6 +126,7 @@ import {
     TuiTablePaginationModule,
     TuiTableModule,
 } from '@taiga-ui/addon-table';
+import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -238,7 +240,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         TuiRippleModule,
         TuiSidebarModule,
         TuiTouchableModule,
-        TuiMobileCalendarDialogModule
+        TuiMobileCalendarDialogModule,
+        TuiBarModule,
     ]
 })
 

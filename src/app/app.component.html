@@ -5,29 +5,53 @@
                 <h1 class="text-header">NatBank API</h1>
                 <span class="text">Custom exchange rates API of the National Bank of the Republic of Belarus</span>
             </div>
+            <p class="legend">
+                <span *ngFor="let chart of curList" class="item">
+                    <small class="name">{{chart.name}}</small>
+                </span>
+            </p>
+            <tui-loader [showLoader]="isActiveChart" [inheritColor]="true" [overlay]="true" class="loader" [size]="'l'">
+                <tui-axes *ngIf="curList" class="axes" [horizontalLines]="4" [tuiLineChartHint]="hint"
+                    [axisYName]="'Value (BYN)'" [axisYLabels]='axisYLabels' [axisYSecondaryLabels]='axisYLabels'>
+                    <tui-line-chart *ngFor="let value of curList" class="chart" [x]="0" [y]="2"
+                        [width]="curList[0].values.length - 1" [height]="2" [value]="value.values | chart"
+                        [filled]="true" [xStringify]='strtringify'></tui-line-chart>
+                </tui-axes>
+            </tui-loader>
+
+
             <input type="text" placeholder="Currency..." [(ngModel)]="searchString" class="table-search">
             <div *ngIf="curList">
                 <div class="table-wrapper">
-                    <table class="table">
+                    <table>
                         <tr>
                             <th class='table-heading'></th>
-                            <td *ngFor="let item of listCut(curList[0].values)" class="table-elem">
-                                {{item.date | date: 'dd/MM/yyyy'}}
-                            </td>
-                            <td *ngFor="let item of (7 - listCut(curList[0].values).length) | number"
-                                class="table-elem">
-                            </td>
                         </tr>
+
                         <tr *ngFor="let currency of curList | filter : 'name' : searchString; let i = index">
                             <th class="table-heading">{{currency.name}}</th>
-                            <td *ngFor="let day of listCut(currency.values)" class="table-elem"
-                                [ngClass]="{'value-min': isExtreme(day.rate, currency.values, 'min'), 'value-max': isExtreme(day.rate, currency.values, 'max') }">
-                                {{day.rate}}</td>
-                            <td *ngFor="let item of (7 - listCut(curList[0].values).length) | number"
-                                class="table-elem">
-                            </td>
                         </tr>
                     </table>
+                    <div class="table-data">
+                        <table class="table">
+                            <tr>
+                                <td *ngFor="let item of listCut(curList[0].values)" class="table-elem">
+                                    {{item.date}}
+                                </td>
+                                <td *ngFor="let item of (7 - listCut(curList[0].values).length) | number"
+                                    class="table-elem">
+                                </td>
+                            </tr>
+                            <tr *ngFor="let currency of curList | filter : 'name' : searchString; let i = index">
+                                <td *ngFor="let day of listCut(currency.values)" class="table-elem"
+                                    [ngClass]="{'value-min': isExtreme(day.rate, currency.values, 'min'), 'value-max': isExtreme(day.rate, currency.values, 'max') }">
+                                    {{day.rate}}</td>
+                                <td *ngFor="let item of (7 - listCut(curList[0].values).length) | number"
+                                    class="table-elem">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
                 <tui-table-pagination [total]="totalPages" [(page)]="currentPage" [(size)]="pageSize"
                     class="table-pagination">
@@ -36,8 +60,6 @@
             <tui-input-date-range class="b-form" [formControl]="dateControl" [min]="minDate" [max]="maxDate">
                 Choose dates
             </tui-input-date-range>
-
         </div>
     </div>
-
 </tui-root>

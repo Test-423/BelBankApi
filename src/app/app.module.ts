@@ -15,6 +15,7 @@ import { TuiSvgModule } from '@taiga-ui/core';
 import { TaigaModule } from './taiga.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NumberPipe } from './shared/pipes/number.pipe';
+import { ChartPipe } from './shared/pipes/chart.pipe';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { NumberPipe } from './shared/pipes/number.pipe';
         MainComponent,
         HeaderComponent,
         FilterPipe,
-        NumberPipe
+        NumberPipe,
+        ChartPipe
     ],
     imports: [
         BrowserModule,
@@ -38,7 +40,8 @@ import { NumberPipe } from './shared/pipes/number.pipe';
     ],
     exports: [
         FilterPipe,
-        NumberPipe
+        NumberPipe,
+        ChartPipe
     ],
     providers: [],
     bootstrap: [AppComponent]
